@@ -19,7 +19,7 @@ a:hover {
 
 /* Landing Section */
 .landing {
-    background: url('background.jpg') no-repeat center center/cover;
+    background: url('https://thunoraz.com/background.jpg') no-repeat center center/cover;
     height: 100vh;
     display: flex;
     align-items: center;
