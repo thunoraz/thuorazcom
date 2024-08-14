@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Blog</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation (optional) -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="btn">Home</a>
+            <a href="#blog" class="btn">Blog</a>
+            <a href="#about" class="btn">About</a>
+        </div>
+    </nav>
+
+    <!-- Blog Container -->
+    <div class="blog-container">
+        <!-- Blog Post 1 -->
+        <div class="blog-post">
+            <h2>Understanding Buffer Overflows</h2>
+            <div class="meta">Posted on August 14, 2024 by Your Name</div>
+            <p>Buffer overflows are a critical vulnerability in software that can be exploited to execute arbitrary code. In this post, we'll explore what buffer overflows are and how they can be mitigated.</p>
+            <pre><code>char buffer[10];
+strcpy(buffer, "This string is too long!");</code></pre>
+            <p>As shown above, when the string exceeds the buffer size, it can lead to unpredictable behavior, often crashing the program or allowing an attacker to execute malicious code.</p>
+            <a href="#">Read more</a>
+        </div>
+
+        <!-- Blog Post 2 -->
+        <div class="blog-post">
+            <h2>CTF Writeup: XYZ Challenge</h2>
+            <div class="meta">Posted on August 10, 2024 by Your Name</div>
+            <p>The XYZ CTF challenge was focused on exploiting SQL injections. This post will walk you through the steps I took to solve it and provide insights into the techniques used.</p>
+            <pre><code>SELECT * FROM users WHERE username = 'admin' AND password = 'password';</code></pre>
+            <p>By inputting <code>' OR '1'='1</code>, we can bypass the authentication mechanism, as the condition always returns true, granting access without needing the correct password.</p>
+            <a href="#">Read more</a>
+        </div>
+
+        <!-- Blog Post 3 -->
+        <div class="blog-post">
+            <h2>Red Team: Initial Access Tactics</h2>
+            <div class="meta">Posted on August 1, 2024 by Your Name</div>
+            <p>In this post, we'll delve into some common tactics used by red teams to gain initial access to a target system. From phishing to exploiting vulnerable services, understanding these methods is crucial for defense.</p>
+            <p>One popular method is spear phishing, where a targeted email is sent to the victim, tricking them into revealing credentials or downloading malicious software.</p>
+            <a href="#">Read more</a>
+        </div>
+    </div>
+
+    <!-- Footer (optional) -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Name. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
