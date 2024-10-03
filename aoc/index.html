@@ -1,36 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-    <style>
-        #map { height: 100vh; width: 100%; background-color: #f4f1e0; }
-    </style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Medieval Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
     <style>
-        #map { height: 100vh; width: 100%; }
-        body { margin: 0; }
+        #map { height: 90vh; width: 100%; }
+        #controls { text-align: center; margin-top: 10px; }
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .editable { cursor: pointer; } /* Cursor changes when editing */
     </style>
 </head>
 <body>
+    <!-- Controls for Editing Mode -->
+    <div id="controls">
+        <input type="password" id="password" placeholder="Enter password" />
+        <button id="toggleEdit">Enable Editing Mode</button>
+        <span id="status" style="margin-left: 15px;"></span>
+    </div>
     <div id="map"></div>
+    
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="regions.geojson"></script> <!-- Include your GeoJSON file -->
+    <script src="regions.geojson"></script> <!-- Include the GeoJSON file -->
     <script>
         // Initialize map centered on Europe with no base layer
-        var map = L.map('map').setView([48.5, 10], 5); // Center on Europe
+        var map = L.map('map').setView([48.5, 10], 5);
 
-        // Load the GeoJSON file and add it to the map
+        // Define colors for factions
+        var factionColors = {
+            "neutral": "#ffffff",  // Default color
+            "faction1": "#f00",    // Faction 1 - Red
+            "faction2": "#00f",    // Faction 2 - Blue
+            "faction3": "#0f0"     // Faction 3 - Green
+        };
+
+        var editMode = false; // Tracks if editing is enabled
+        var correctPassword = "medievalmap"; // Set your password here
+
+        // Function to toggle editing mode
+        document.getElementById("toggleEdit").onclick = function () {
+            var inputPassword = document.getElementById("password").value;
+            if (inputPassword === correctPassword) {
+                editMode = !editMode; // Toggle editing mode
+                document.getElementById("status").innerHTML = editMode ? "Editing Enabled" : "Editing Disabled";
+                document.getElementById("toggleEdit").innerText = editMode ? "Disable Editing Mode" : "Enable Editing Mode";
+                toggleRegionClass(editMode);
+            } else {
+                document.getElementById("status").innerHTML = "Incorrect Password!";
+            }
+        };
+
+        // Function to add/remove the "editable" class based on editing mode
+        function toggleRegionClass(editable) {
+            var regions = document.getElementsByClassName("leaflet-interactive");
+            for (var i = 0; i < regions.length; i++) {
+                regions[i].classList.toggle("editable", editable);
+            }
+        }
+
+        // Load GeoJSON file and add to the map
         fetch('regions.geojson')
             .then(response => response.json())
             .then(data => {
                 L.geoJSON(data, {
-                    style: function(feature) {
-                        return { color: "black", weight: 1, fillOpacity: 0.3 };
+                    style: function (feature) {
+                        // Initial style for regions
+                        return { color: "black", weight: 1, fillOpacity: 0.6, fillColor: factionColors["neutral"] };
+                    },
+                    onEachFeature: function (feature, layer) {
+                        // Add click event to each region
+                        layer.on('click', function () {
+                            if (editMode) {
+                                // Prompt user to select faction
+                                var faction = prompt("Enter faction name (faction1, faction2, faction3):", "neutral");
+                                if (faction in factionColors) {
+                                    // Change the region's color based on faction
+                                    layer.setStyle({ fillColor: factionColors[faction] });
+                                    feature.properties.faction = faction; // Save faction in properties
+                                } else {
+                                    alert("Invalid faction name. Use faction1, faction2, or faction3.");
+                                }
+                            }
+                        });
                     }
                 }).addTo(map);
             });
+
     </script>
 </body>
 </html>
