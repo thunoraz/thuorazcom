@@ -1,1 +1,19 @@
-
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "id": "county1", "name": "County Name" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [longitude1, latitude1],
+          [longitude2, latitude2],
+          [longitude3, latitude3],
+          [longitude1, latitude1]
+        ]]
+      }
+    }
+    // Add more counties here
+  ]
+}
