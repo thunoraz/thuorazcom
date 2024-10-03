@@ -13,15 +13,26 @@
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="regions.geojson"></script> <!-- Include the GeoJSON file -->
     <script>
-        // Initialize map centered on Europe
+        // Initialize the map centered on Europe
         var map = L.map('map').setView([48.5, 10], 5);
 
         // Use a basic map tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
+
+        // Load GeoJSON file and add to the map
+        fetch('regions.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function(feature) {
+                        return { color: "black", weight: 1, fillOpacity: 0.3 };
+                    }
+                }).addTo(map);
+            });
     </script>
 </body>
 </html>
-
